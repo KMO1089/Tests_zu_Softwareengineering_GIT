@@ -1,6 +1,6 @@
 package de.kmo1089.Klassendiagramm;
 
-public class Proxy implements Mitglied {
+public class Proxy extends RealMitglied implements Mitglied  {
 
 	private RealMitglied mitglied;
 	private RealMitglied user;
@@ -9,12 +9,15 @@ public class Proxy implements Mitglied {
 		this.mitglied = mitglied;
 		this.user = user;
 	}
+	
+	
 
-	public boolean isOwner(RealMitglied mitglied, RealMitglied user) {
+	public boolean isOwner() {
 		if (mitglied.equals(user)) {
 			return true;
-		} else
+		} else {
 			return false;
+		}
 	}
 
 	@Override
@@ -24,13 +27,14 @@ public class Proxy implements Mitglied {
 
 	@Override
 	public double giveRating(int rating) {
-		if(mitglied.equals(user)) {
+		if (isOwner() == true) {
+			System.out.println("Bewertung wurde um 1.0 verringert");
 			return -1.0;
-		}else {
-			giveRating(rating);
-			rating += rating;
+		} else {
+			mitglied.giveRating(rating);
+			System.out.println(mitglied.getName()+" arbeitet als "+ mitglied.getService()+" seine/ihre Bewertung liegt bei: "+ mitglied.giveRating(rating));
+			return mitglied.getRating();
 		}
-
 	}
 
 }
